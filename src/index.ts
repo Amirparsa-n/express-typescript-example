@@ -1,9 +1,31 @@
-import { createApp } from "./createApp";
+import { createApp } from './app';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const app = createApp();
+let server: any;
 
-const PORT = 3000;
+export async function bootstrap() {
+    const PORT = process.env.PORT;
+    const app = createApp();
 
-app.listen(PORT, () => {
-	console.log(`Running on Port ${PORT}`);
-});
+    try {
+        server = app.listen(PORT, () => {
+            console.info(`
+                #########################################################
+                  Server listening on : http://localhost:${PORT} 
+                #########################################################
+              `);
+        });
+        return server;
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+export async function closeServer() {
+    if (server) {
+        await server.close();
+    }
+}
+
+bootstrap();
