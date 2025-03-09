@@ -58,6 +58,8 @@ export class BaseController {
      * @param counter
      * @returns
      */
+
+    // Sequelize
     public async getUniqueSlug(model: any, baseSlug: string, counter: number = 1): Promise<string> {
         const currentSlug = counter === 1 ? baseSlug : `${baseSlug}-${counter}`;
         const existingSlug = await model.findOne({ where: { slug: currentSlug } });
@@ -66,4 +68,14 @@ export class BaseController {
         }
         return await this.getUniqueSlug(model, baseSlug, counter + 1);
     }
+
+    // mongo DB
+    // public async getUniqueSlug(model: any, baseSlug: string, counter: number = 1): Promise<string> {
+    //     const currentSlug = counter === 1 ? baseSlug : `${baseSlug}-${counter}`;
+    //     const existingSlug = await model.findOne({ slug: currentSlug }).exec();
+    //     if (!existingSlug) {
+    //         return currentSlug;
+    //     }
+    //     return await this.getUniqueSlug(model, baseSlug, counter + 1);
+    // }
 }
